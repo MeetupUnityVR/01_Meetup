@@ -1,0 +1,65 @@
+{
+	"RotateHeadInEditor": {
+		"prefix": "meetup.01.Rotate Head In Editor",
+		"description": "Rotate the Camera's Head (in Editor only)",
+		"body": [
+			"// 1) Head rotation with mouse",
+			"if (Input.GetKey(KeyCode.LeftControl))",
+			"{",
+			"\tvar curr = transform.eulerAngles;",
+			"\tvar mouseX = Input.GetAxis(\"Mouse X\") * SensitivityX;",
+			"\tvar mouseY = Input.GetAxis(\"Mouse Y\") * SensitivityX;",
+			"\ttransform.eulerAngles = new Vector3(curr.x - mouseY, curr.y + mouseX, curr.z);",
+			"}"
+		]
+	},
+
+	"AddSensitivityFields": {
+		"prefix": "meetup.02.Add Sensitivity Fields",
+		"description": "Add SensitivityX and SensitivityY public fields",
+		"body": [
+			"// 1) declaration mouse sensitivity (default 5)",
+			"public float SensitivityX = 5f;",
+			"public float SensitivityX = 5f;"
+		]
+	},
+
+	"Raycast": {
+		"prefix": "meetup.03.Raycast",
+		"description": "Send raycast from Camera position in the Camera's direction",
+		"body": [
+			"// 2) Cast ray from camera",
+			"Ray ray = Camera.main.ViewportPointToRay (new Vector3(0.5f, 0.5f, 0f));",
+			"RaycastHit hit;",
+			"if (Physics.Raycast(ray, out hit))",
+			"{",
+			"\tif (Input.GetMouseButtonDown(0))",
+			"\t{",
+			"\t\t//3) Teleport",
+			"\t\tvar teleport = hit.collider.gameObject.GetComponent<WaypointScript>();",
+			"\t\tif (teleport != null)",
+			"\t\t{",
+			"\t\t\tTeleport(teleport.transform);",
+			"\t\t}",
+			"\t}",
+			"}"
+		]
+	},
+
+	"Teleport": {
+		"prefix": "meetup.04.Teleport",
+		"description": "Move Player to Teleporter",
+		"body": [
+			"private Transform lastTeleporter;",
+			"",
+			"private void Teleport(Transform teleporter)",
+			"{",
+			"\ttransform.position = teleporter.transform.position;",
+			"\tif(lastTeleporter != null)",
+			"\t\tlastTeleporter.enabled = true;",
+			"\tteleporter.enabled = true;",
+			"\tlastTeleporter = teleporter;",
+			"}"
+		]
+	}
+}
